@@ -1,11 +1,9 @@
-// models/Comment.js
 const mongoose = require('../config/database');
 
 const commentSchema = new mongoose.Schema({
     content: { type: String, required: true },
     author: { type: String, required: true },
-    article: { type: mongoose.Schema.Types.ObjectId, ref: 'Article', required: true },
-    confession: { type: mongoose.Schema.Types.ObjectId, ref: 'Confession' },
+    confessionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Confession', required: true },
     createdAt: { type: Date, default: Date.now }
 });
 

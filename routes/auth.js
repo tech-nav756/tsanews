@@ -1,46 +1,64 @@
-// routes/auth.js
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Admin = require('../models/Admin');
+const { isAuthenticated } = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Login Route (GET)
+// GET /auth/login - Login Page
 router.get('/login', (req, res) => {
-    res.render('pages/login');
+    res.render('pages/login'); // Render login page (use EJS template)
 });
 
-// Login Route (POST)
+// POST /auth/login - Handle Login
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    
+
     try {
+        // Check if admin exists
+        const admin = await Admin.findOne({ username });
+        if (admin) {
+            const isMatch = await admin.matchPassword(password);
+            if (!isMatch) {
+                return res.status(401).send('Invalid username or password');
+            }
+
+            // Admin login: create session and redirect
+            req.session.userId = admin._id;
+            req.session.username = admin.username;
+            req.session.role = 'admin';  // Admin role for access control
+            return res.redirect('/admin/dashboard');
+        }
+
+        // Check if user exists
         const user = await User.findOne({ username });
-        if (!user) {
-            return res.status(400).render('pages/login', { error: 'User not found' });
+        if (user) {
+            const isMatch = await user.comparePassword(password);
+            if (!isMatch) {
+                return res.status(401).send('Invalid username or password');
+            }
+
+            // User login: create session and redirect
+            req.session.userId = user._id;
+            req.session.username = user.username;
+            req.session.role = 'user';  // User role for access control
+            return res.redirect('/');
         }
 
-        const isMatch = await user.comparePassword(password);
-        if (!isMatch) {
-            return res.status(400).render('pages/login', { error: 'Incorrect password' });
-        }
-
-        // Set user session
-        req.session.userId = user._id;
-        req.session.role = user.role;
-
-        res.redirect('/admin/dashboard'); // Redirect to admin dashboard (or home for non-admin users)
+        return res.status(401).send('Invalid username or password');
     } catch (error) {
+        console.error(error);
         res.status(500).send('Server error');
     }
 });
 
-// Logout Route (GET)
+// GET /auth/logout - Logout logic
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).send('Failed to log out');
         }
-        res.redirect('/');
+        res.redirect('/auth/login');  // Redirect to login page
     });
 });
 

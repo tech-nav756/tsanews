@@ -44,6 +44,24 @@ router.delete('/news/:id', (req, res) => {
 
 // Confession CRUD Routes
 
+router.get('/confess', (req, res) => {
+    res.render('pages/confess');  // Confession form page
+});
+
+// Handle confession form submission
+router.post('/confess', async (req, res) => {
+    const { content, author } = req.body;
+
+    try {
+        const newConfession = new Confession({ content, author });
+        await newConfession.save();
+        res.redirect('/');  // Redirect after successful submission
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error submitting confession');
+    }
+});
+
 // Create Confession
 router.post('/confessions', (req, res) => {
     const { content, author } = req.body;
