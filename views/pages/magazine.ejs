@@ -1,47 +1,31 @@
 <!-- views/pages/magazine.ejs -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magazine - Tsanews</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">TsaNews</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/trending">Trending News</a></li>
-                <li class="nav-item"><a class="nav-link" href="/confess">Confessions</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <div class="container my-4">
-        <h2>Magazine</h2>
-        <div class="row">
-            <!-- Placeholder for Magazine Articles -->
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Magazine Article Title</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in venenatis enim.</p>
-                        <a href="/magazine/1" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
-            </div>
+<h2>All News Articles</h2>
 
-            <!-- Add more magazine articles here -->
-        </div>
+<% if (articles.length > 0) { %>
+    <ul>
+        <% articles.forEach(article => { %>
+            <li>
+                <h3><a href="/news/<%= article._id %>"><%= article.title %></a></h3>
+                <p><%= article.content.substring(0, 100) %>...</p>
+            </li>
+        <% }) %>
+    </ul>
+    
+    <!-- Pagination Links -->
+    <div class="pagination">
+        <% if (currentPage > 1) { %>
+            <a href="/magazine?page=<%= currentPage - 1 %>">Previous</a>
+        <% } %>
+        
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <a href="/magazine?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <a href="/magazine?page=<%= currentPage + 1 %>">Next</a>
+        <% } %>
     </div>
-
-    <footer>
-        <p>&copy; 2025 Tsanews. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+<% } else { %>
+    <p>No articles found</p>
+<% } %>

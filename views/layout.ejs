@@ -1,0 +1,45 @@
+<!-- views/layout.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSANews</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TSANews</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/magazine">News</a></li>
+                    <li><a href="/trending">Trending</a></li>
+                    <li><a href="/confess">Confess</a></li>
+                    <li><a href="/confessions">Confessions</a></li>
+                    <li><a href="/about">about</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="row">
+                <div class="col-md-3">
+                    <aside>
+                        <!-- Sidebar content (if any) -->
+                    </aside>
+                </div>
+                <div class="col-md-9">
+                    <%- body %> <!-- This will render the content of individual pages -->
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 TSANews. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

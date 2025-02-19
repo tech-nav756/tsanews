@@ -1,41 +1,36 @@
 <!-- views/pages/trending.ejs -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trending News - Tsanews</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <!-- Navbar (same as before) -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="/">TsaNews</a>
-        <!-- other navbar links -->
-    </nav>
+<main>
+    <h1>Trending News</h1>
+    <% if (trendingNews.length > 0) { %>
+        <ul>
+            <% trendingNews.forEach(article => { %>
+                <li>
+                    <a href="/news/<%= article._id %>">
+                        <h2><%= article.title %></h2>
+                    </a>
+                    <p><%= article.content.substring(0, 150) %>...</p>
+                    <p><strong>Comments: </strong><%= article.commentsCount %> | <strong>Likes: </strong><%= article.likesCount %></p>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No trending news available.</p>
+    <% } %>
 
-    <div class="container my-4">
-        <h2>Trending News</h2>
-        <div class="row">
-            <!-- Placeholder for Dynamic Trending Articles -->
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Trending Title</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/news/1" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
-            </div>
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <% if (currentPage > 1) { %>
+            <a href="/trending?page=<%= currentPage - 1 %>">Previous</a>
+        <% } %>
 
-            <!-- Add more trending articles here -->
-        </div>
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <a href="/trending?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <a href="/trending?page=<%= currentPage + 1 %>">Next</a>
+        <% } %>
     </div>
+</main>
 
-    <footer>
-        <p>&copy; 2025 Tsanews. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+

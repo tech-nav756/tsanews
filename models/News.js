@@ -1,11 +1,13 @@
+// models/News.js
+
 const mongoose = require('mongoose');
 
-const newsSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    content: { type: String, required: true },
-    author: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now },
-});
+const NewsSchema = new mongoose.Schema({
+    title: String,
+    content: String,
+    likes: { type: Number, default: 0 },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+}, { timestamps: true });
 
-const News = mongoose.model('News', newsSchema);
+const News = mongoose.model('News', NewsSchema);
 module.exports = News;
