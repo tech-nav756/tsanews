@@ -1,5 +1,4 @@
 <!-- views/pages/home.ejs -->
-
 <h1>Welcome to the Home Page</h1>
 
 <h2>Trending News</h2>
@@ -11,6 +10,11 @@
                 <h3><a href="/news/<%= news._id %>"><%= news.title %></a></h3>
                 <p><%= news.content.substring(0, 100) %>...</p>
                 <p><%= news.likes %> Likes</p>
+
+                <!-- Show image if available -->
+                <% if (news.imagePath) { %>
+                    <img src="<%= news.imagePath %>" alt="Article Image" width="200">
+                <% } %>
             </li>
         <% }) %>
     </ul>

@@ -5,6 +5,7 @@ const News = require('../../models/News');
 const Confession = require('../../models/Confession');
 const articleRoutes = require('./articles');  // Import the article routes
 const Admin = require('../../models/Admin'); // Import your Admin model
+const upload = require('../../middleware/upload');
 const { isAuthenticated } = require('../../middleware/authMiddleware'); // Middleware for authentication
 const router = express.Router();
 
@@ -85,8 +86,8 @@ router.get('/sendEmail', (req, res) => {
 
 // Create New Article (Handle Form Submission)
 router.post('/createArticle', async (req, res) => {
-  const { title, content } = req.body;
-  const newArticle = new News({ title, content });
+  const { title, content, author, imagePath } = req.body;
+  const newArticle = new News({ title, content, author, imagePath });
   try {
       await newArticle.save();
       res.redirect('/admin/manageArticles'); // Redirect to manage articles after successful creation
@@ -97,19 +98,28 @@ router.post('/createArticle', async (req, res) => {
 });
 
 // Update Article (Admin)
-router.get('/updateArticle/:id', async (req, res) => {
+router.post('/updateArticle/:id', upload.single('image'), async (req, res) => {
+  const { title, content, author } = req.body;
+  const imagePath = req.file ? '/uploads/' + req.file.filename : null;  // Get image path if uploaded
+
   try {
       const article = await News.findById(req.params.id);
       if (!article) {
           return res.status(404).send('Article not found');
       }
-      res.render('pages/admin/updateArticle', { article });
+      
+      article.title = title;
+      article.content = content;
+      article.author = author;
+      if (imagePath) article.imagePath = imagePath;  // Update imagePath if uploaded
+
+      await article.save();
+      res.redirect('/admin/manageArticles');
   } catch (error) {
       console.error(error);
-      res.status(500).send('Error fetching article for update');
+      res.status(500).send('Error updating article');
   }
 });
-
 
 router.get('/news', async (req, res) => {
   try {
@@ -128,30 +138,45 @@ router.get('/news/create', (req, res) => {
 
 // Handle form submission to create a new article
 // Create News Article (Admin Only)
-router.post('/news/create', async (req, res) => {
-  const { title, content } = req.body;
+router.post('/news/create', upload.single('image'), async (req, res) => {
+  const { title, content, author } = req.body;
+  const imagePath = req.file ? '/uploads/' + req.file.filename : null;  // Get image path if uploaded
 
   try {
-      const newArticle = new News({ title, content });
+      const newArticle = new News({ title, content, author, imagePath });
       await newArticle.save();
-      res.redirect('/admin/createArticle');  // Redirect to the manage articles page after creating
+      res.redirect('/admin/manageArticles');  // Redirect after creating the article
   } catch (error) {
       console.error(error);
       res.status(500).send('Error creating article');
   }
 });
-
 // Handle Update Article
-router.post('/updateArticle/:id', async (req, res) => {
-  const { title, content } = req.body;
+// Handle form submission to update an article (with image upload)
+
+router.post('/updateArticle/:id', upload.single('image'), async (req, res) => {
+  const { title, content, author } = req.body;
+  const image = req.file ? '/uploads/' + req.file.filename : null;  // Get image path if uploaded
+
   try {
-      await News.findByIdAndUpdate(req.params.id, { title, content }, { new: true });
+      const article = await News.findById(req.params.id);
+      if (!article) {
+          return res.status(404).send('Article not found');
+      }
+      
+      article.title = title;
+      article.content = content;
+      article.author = author;
+      if (image) article.image = image; // Update image if uploaded
+      
+      await article.save();
       res.redirect('/admin/manageArticles');
   } catch (error) {
       console.error(error);
       res.status(500).send('Error updating article');
   }
 });
+
 
 // Delete Article (Admin)
 router.delete('/deleteArticle/:id', async (req, res) => {

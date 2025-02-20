@@ -1,8 +1,12 @@
 <!-- views/pages/newsView.ejs -->
-
 <h2><%= article.title %></h2>
 <p><%= article.content %></p>
 
-<!-- Example of displaying article details -->
+<!-- Show article image -->
+<% if (article.imagePath) { %>
+    <img src="<%= article.imagePath %>" alt="Article Image" width="400">
+<% } %>
+
+<!-- Article author and publish date -->
 <p>Author: <%= article.author %></p>
 <p>Published on: <%= article.createdAt.toLocaleDateString() %></p>

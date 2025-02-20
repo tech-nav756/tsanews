@@ -22,6 +22,7 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -41,6 +42,7 @@ app.use('/admin', adminConfessionRoutes);
 app.use('/confessions', confessionRoutes);
 app.use('/confessions', commentRoutes);  // Add comment route here
 app.use('/confessions', interactionRoutes);  // Add interaction route here
+
 
 
 app.listen(PORT, () => {
