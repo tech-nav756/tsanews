@@ -1,82 +1,67 @@
 const express = require('express');
+const News = require('../../models/News');
 const router = express.Router();
-const Article = require('../../models/Article');
 
-// GET all articles with pagination
-router.get('/articles', async (req, res) => {
-    try {
-        const page = parseInt(req.query.page) || 1;  // Default page 1
-        const limit = 10;  // Number of articles per page
-        const skip = (page - 1) * limit;
-
-        const articles = await Article.find()
-            .skip(skip)
-            .limit(limit)
-            .sort({ createdAt: -1 });  // Sort by newest first
-
-        const totalArticles = await Article.countDocuments();
-
-        res.render('pages/admin/articles', {
-            articles,
-            currentPage: page,
-            totalPages: Math.ceil(totalArticles / limit),
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
+// Admin manage articles
+router.get('/manageArticles', async (req, res) => {
+  try {
+    const articles = await News.find();
+    res.render('pages/admin/manageArticle', { articles }); // Render manageArticle.ejs
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching articles');
+  }
 });
 
-// GET a specific article for editing
-router.get('/articles/edit/:id', async (req, res) => {
-    try {
-        const article = await Article.findById(req.params.id);
-        res.render('pages/admin/edit-article', { article });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+// Route for Edit Article (Show edit form)
+router.get('/edit-article/:id', async (req, res) => {
+  try {
+    const article = await News.findById(req.params.id);
+    if (!article) {
+      return res.status(404).send('Article not found');
     }
+    res.render('pages/admin/edit-article', { article });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching article');
+  }
 });
 
-// POST (create) a new article
-router.post('/articles', async (req, res) => {
-    try {
-        const { title, content, author } = req.body;
-        const newArticle = new Article({ title, content, author });
-        await newArticle.save();
-        res.redirect('/admin/articles');  // Redirect to article list
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
+// Route for Handling Edit Article Form Submission
+router.post('/edit-article/:id', async (req, res) => {
+  const { title, content } = req.body;
+  try {
+    await News.findByIdAndUpdate(req.params.id, { title, content });
+    res.redirect('/admin/manageArticles'); // Redirect back to manage articles
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating article');
+  }
 });
 
-// PUT (update) an article
-router.post('/articles/edit/:id', async (req, res) => {
-    try {
-        const { title, content, author } = req.body;
-        await Article.findByIdAndUpdate(req.params.id, {
-            title,
-            content,
-            author,
-            updatedAt: Date.now()
-        });
-        res.redirect('/admin/articles');  // Redirect to article list
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+// Route for Delete Article (Show delete confirmation)
+router.get('/delete-article/:id', async (req, res) => {
+  try {
+    const article = await News.findById(req.params.id);
+    if (!article) {
+      return res.status(404).send('Article not found');
     }
+    res.render('pages/admin/delete-article', { article });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching article');
+  }
 });
 
-// DELETE an article
-router.get('/articles/delete/:id', async (req, res) => {
-    try {
-        await Article.findByIdAndDelete(req.params.id);
-        res.redirect('/admin/articles');  // Redirect to article list
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
+// Route for Handling Delete Article
+router.post('/delete-article/:id', async (req, res) => {
+  try {
+    await News.findByIdAndDelete(req.params.id);
+    res.redirect('/admin/manageArticles'); // Redirect back to manage articles
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error deleting article');
+  }
 });
 
 module.exports = router;

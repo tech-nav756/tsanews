@@ -6,7 +6,12 @@ const session = require('express-session');
 const expressLayouts = require('express-ejs-layouts'); // Import express-ejs-layouts
 const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
-const adminRoutes = require('./routes/admin');
+const adminRoutes = require('./routes/admin/index');
+const articleRoutes = require('./routes/admin/articles');  // Import articles routes
+const confessionRoutes = require('./routes/confession'); // Import confession routes
+const adminConfessionRoutes = require('./routes/admin/confession'); // Import admin confession routes
+const commentRoutes = require('./routes/comment');
+const interactionRoutes = require('./routes/interaction');
 require('./config/database');
 
 dotenv.config();
@@ -31,6 +36,12 @@ app.use(session({
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes); // Admin panel route
+app.use('/admin', articleRoutes); // Admin panel route
+app.use('/admin', adminConfessionRoutes);
+app.use('/confessions', confessionRoutes);
+app.use('/confessions', commentRoutes);  // Add comment route here
+app.use('/confessions', interactionRoutes);  // Add interaction route here
+
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

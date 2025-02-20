@@ -3,7 +3,7 @@ const mongoose = require('../config/database');
 
 const confessionSchema = new mongoose.Schema({
     content: { type: String, required: true },
-    author: { type: String, required: true },
+    author: { type: String, required: false },
     approved: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }
 });

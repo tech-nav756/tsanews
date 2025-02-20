@@ -1,0 +1,32 @@
+<!-- views/pages/admin/manageArticle.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Articles</title>
+</head>
+<body>
+    <h2>Manage Articles</h2>
+    <a href="/news/create">Create New Article</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% articles.forEach((article) => { %>
+                <tr>
+                    <td><%= article.title %></td>
+                    <td>
+                        <a href="/admin/articles/edit-article/<%= article._id %>">Edit</a> | 
+                        <a href="/admin/articles/delete-article/<%= article._id %>">Delete</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

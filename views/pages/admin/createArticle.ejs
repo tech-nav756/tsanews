@@ -1,0 +1,24 @@
+<!-- views/pages/admin/createArticle.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Article</title>
+</head>
+<body>
+    <h2>Create New Article</h2>
+    <form action="/admin/articles/edit/<%= article._id %>" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" value="<%= article.title %>" required>
+    
+        <label for="content">Content:</label>
+        <textarea name="content" id="content" required><%= article.content %></textarea>
+    
+        <label for="author">Author:</label>
+        <input type="text" name="author" id="author" value="<%= article.author %>" required>
+    
+        <button type="submit">Update Article</button>
+    </form>
+</body>
+</html>

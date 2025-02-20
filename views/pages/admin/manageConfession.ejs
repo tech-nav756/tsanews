@@ -1,0 +1,29 @@
+<!-- views/pages/admin/manageConfession.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Confessions</title>
+</head>
+<body>
+    <h1>Manage Confessions</h1>
+    <% if (confessions.length > 0) { %>
+        <ul>
+            <% confessions.forEach(confession => { %>
+                <li>
+                    <p><%= confession.content %></p>
+                    <form action="/admin/confessions/<%= confession._id %>/approve" method="POST">
+                        <button type="submit">Approve</button>
+                    </form>
+                    <form action="/admin/confessions/<%= confession._id %>/reject" method="POST">
+                        <button type="submit">Reject</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No confessions to approve.</p>
+    <% } %>
+</body>
+</html>

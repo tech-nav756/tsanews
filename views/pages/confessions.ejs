@@ -1,31 +1,20 @@
 <!-- views/pages/confessions.ejs -->
-
-<h2>Approved Confessions</h2>
-
-<% if (confessions.length > 0) { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confessions</title>
+</head>
+<body>
+    <h2>Confessions</h2>
+    <a href="/confessions/create">Submit New Confession</a> <!-- Link to submit a new confession -->
     <ul>
-        <% confessions.forEach(confession => { %>
+        <% confessions.forEach((confession) => { %>
             <li>
-                <p><%= confession.content %></p>
-                <p><em>Author: <%= confession.author %></em></p>
+                <a href="/confessions/<%= confession._id %>"><%= confession.content.substring(0, 100) %>...</a>
             </li>
-        <% }) %>
+        <% }); %>
     </ul>
-
-    <!-- Pagination Links -->
-    <div class="pagination">
-        <% if (currentPage > 1) { %>
-            <a href="/confessions?page=<%= currentPage - 1 %>">Previous</a>
-        <% } %>
-
-        <% for (let i = 1; i <= totalPages; i++) { %>
-            <a href="/confessions?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
-        <% } %>
-
-        <% if (currentPage < totalPages) { %>
-            <a href="/confessions?page=<%= currentPage + 1 %>">Next</a>
-        <% } %>
-    </div>
-<% } else { %>
-    <p>No approved confessions found</p>
-<% } %>
+</body>
+</html>

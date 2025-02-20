@@ -2,106 +2,77 @@ const express = require('express');
 const Confession = require('../models/Confession');
 const Comment = require('../models/Comment');
 const Interaction = require('../models/Interaction');
-const { isAdmin } = require('../middleware/authMiddleware'); // Assuming you have admin middleware
 const router = express.Router();
 
-// Public routes for confessions
-
-// CREATE Confession (Public)
+// CREATE Confession (Public Route)
 router.post('/create', async (req, res) => {
+    const { content, author } = req.body;
+
     try {
-        const confession = new Confession(req.body);
-        await confession.save();
-        res.status(201).json(confession);
+        const newConfession = new Confession({ content, author });
+        await newConfession.save();
+        res.status(201).json(newConfession); // Return the created confession
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// READ Confessions (Only approved confessions for public)
+// VIEW All Confessions (Public Route, approved only)
 router.get('/', async (req, res) => {
     try {
         const confessions = await Confession.find({ approved: true });
-        res.json(confessions);
+        res.render('pages/confess', { confessions }); // Render the confession list
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// READ Single Confession (Public)
+// VIEW Single Confession (Public Route)
 router.get('/:id', async (req, res) => {
     try {
         const confession = await Confession.findById(req.params.id);
         if (!confession) {
             return res.status(404).json({ message: 'Confession not found' });
         }
-        res.json(confession);
+
+        // Fetch comments for the confession
+        const comments = await Comment.find({ confessionId: req.params.id });
+
+        // Fetch likes and dislikes for the confession
+        const likesCount = await Interaction.countDocuments({ confessionId: req.params.id, type: 'like' });
+        const dislikesCount = await Interaction.countDocuments({ confessionId: req.params.id, type: 'dislike' });
+
+        res.render('pages/confession', { confession, comments, likesCount, dislikesCount });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).send('Error fetching confession');
     }
 });
 
-// POST a comment on a confession
-router.post('/confessions/:id/comment', async (req, res) => {
+// CREATE Comment on a Confession
+router.post('/:id/comment', async (req, res) => {
     const { content, author } = req.body;
     const confessionId = req.params.id;
 
     try {
         const newComment = new Comment({ content, author, confessionId });
         await newComment.save();
-        res.redirect(`/confessions/${confessionId}`);
+        res.redirect(`/confessions/${confessionId}`);  // Redirect back to the single confession page
     } catch (error) {
-        console.error(error);
         res.status(500).send('Error posting comment');
     }
 });
 
-// Like or Dislike a confession
-router.post('/confessions/:id/interaction', async (req, res) => {
-    const { type } = req.body; // 'like' or 'dislike'
+// LIKE or DISLIKE a Confession
+router.post('/:id/interaction', async (req, res) => {
     const confessionId = req.params.id;
-    const userId = req.session.user._id; // Assuming user is logged in
+    const { type } = req.body;  // Either "like" or "dislike"
 
     try {
-        const existingInteraction = await Interaction.findOne({ userId, confessionId });
-        if (existingInteraction) {
-            return res.status(400).send('You have already interacted with this confession');
-        }
-
-        const newInteraction = new Interaction({ userId, confessionId, type });
+        const newInteraction = new Interaction({ confessionId, type });
         await newInteraction.save();
-        res.redirect(`/confessions/${confessionId}`);
+        res.redirect(`/confessions/${confessionId}`);  // Redirect back to the single confession page
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error adding interaction');
-    }
-});
-
-// Admin routes for confessions
-
-// Approve Confession (Admin only)
-router.put('/:id/approve', isAdmin, async (req, res) => {
-    try {
-        const confession = await Confession.findByIdAndUpdate(req.params.id, { approved: true }, { new: true });
-        if (!confession) {
-            return res.status(404).json({ message: 'Confession not found' });
-        }
-        res.json(confession);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// DELETE Confession (Admin only)
-router.delete('/:id', isAdmin, async (req, res) => {
-    try {
-        const confession = await Confession.findByIdAndDelete(req.params.id);
-        if (!confession) {
-            return res.status(404).json({ message: 'Confession not found' });
-        }
-        res.json({ message: 'Confession deleted' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).send('Error processing interaction');
     }
 });
 
