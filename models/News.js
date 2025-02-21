@@ -4,8 +4,8 @@ const mongoose = require('../config/database');
 const newsSchema = new mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
-    author: { type: String, required: true },  // Author field
-    imagePath: { type: String },  // Image path field
+    author: { type: String, required: true }, 
+    imagePath: { type: String },  
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

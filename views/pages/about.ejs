@@ -1,5 +1,192 @@
-<!-- views/pages/about.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
 
-<h2>About Us</h2>
-<p>Welcome to TSANews! We are a platform that brings you the latest news, trends, and confessions from across the globe.</p>
-<p>Our goal is to inform, entertain, and provide a space where people can share their confessions anonymously.</p>
+        .about-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .about-header p {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .about-content .section {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .about-content .section h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .about-content .section p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .about-content .section ul {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .about-content .section ul li {
+            margin-bottom: 10px;
+        }
+
+        .about-team {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 60px;
+        }
+
+        .about-team .team-member {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .about-team .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .about-team .team-member h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .about-team .team-member p {
+            font-size: 1rem;
+            color: #777;
+        }
+
+        .about-footer {
+            text-align: center;
+            margin-top: 80px;
+            color: #999;
+        }
+
+        .about-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .about-footer a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="about-wrapper">
+        <!-- About Header -->
+        <div class="about-header">
+            <h1>Who We Are</h1>
+            <p>Welcome to TSANews – A space for candid confessions, trending stories, and discussions. We bring you the latest in news and entertainment, anonymously or not.</p>
+        </div>
+
+        <!-- Mission, Vision & Values Section -->
+        <div class="about-content">
+            <div class="section">
+                <h3>Our Mission</h3>
+                <p>At TSANews, we are dedicated to providing you with the freshest stories, confessions, and discussions. Our mission is to give everyone a voice, create thought-provoking discussions, and keep the world informed with diverse viewpoints.</p>
+            </div>
+            <div class="section">
+                <h3>Our Vision</h3>
+                <p>We envision a society where individuals can express their thoughts and confessions without fear of judgment. We strive to create a space for authentic dialogue, where freedom of speech is celebrated.</p>
+            </div>
+            <div class="section">
+                <h3>Our Core Values</h3>
+                <ul>
+                    <li><strong>Transparency:</strong> We provide news and stories without bias, with a commitment to accuracy.</li>
+                    <li><strong>Respect:</strong> Every voice deserves respect – we value your confessions and opinions.</li>
+                    <li><strong>Community:</strong> Building a community where everyone’s voice is heard and acknowledged.</li>
+                    <li><strong>Innovation:</strong> Embracing new ideas and platforms to provide the best user experience.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Meet the Team Section -->
+        <h2 class="section-title">Meet Our Team</h2>
+        <div class="about-team">
+            <div class="team-member">
+                <img src="https://via.placeholder.com/120" alt="Team Member 1">
+                <h5>John Doe</h5>
+                <p>Founder & CEO</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/120" alt="Team Member 2">
+                <h5>Jane Smith</h5>
+                <p>Content Director</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/120" alt="Team Member 3">
+                <h5>Sam Williams</h5>
+                <p>Community Manager</p>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="about-footer">
+            <p>&copy; 2025 TSANews | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

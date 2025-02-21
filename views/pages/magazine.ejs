@@ -1,31 +1,55 @@
 <!-- views/pages/magazine.ejs -->
-
-<h2>All News Articles</h2>
-
-<% if (articles.length > 0) { %>
-    <ul>
-        <% articles.forEach(article => { %>
-            <li>
-                <h3><a href="/news/<%= article._id %>"><%= article.title %></a></h3>
-                <p><%= article.content.substring(0, 100) %>...</p>
-            </li>
-        <% }) %>
-    </ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <%- include("../partials/_topbar.ejs") %>
+    <!-- Navbar Section -->
+    <%- include("../partials/_nav.ejs") %>
+    <!-- Hero Section -->
+    <section  id="page-hero">
+    </section>
+    <div class="container mt-5 p-5">
+        <h2 class="text-center mb-4 section-title">All News Articles</h2>
     
-    <!-- Pagination Links -->
-    <div class="pagination">
-        <% if (currentPage > 1) { %>
-            <a href="/magazine?page=<%= currentPage - 1 %>">Previous</a>
-        <% } %>
-        
-        <% for (let i = 1; i <= totalPages; i++) { %>
-            <a href="/magazine?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
-        <% } %>
-
-        <% if (currentPage < totalPages) { %>
-            <a href="/magazine?page=<%= currentPage + 1 %>">Next</a>
+        <% if (articles.length > 0) { %>
+            <div class="row">
+                <% articles.forEach(article => { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm">
+                            <img src="<%= article.imagePath %>" class="card-img-top" alt="Article Image">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/news/<%= article._id %>" class="text-decoration-none text-dark"><%= article.title %></a></h5>
+                                <p class="card-text"><%= article.content.substring(0, 100) %>...</p>
+                                <a href="/news/<%= article._id %>" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+    
+            <!-- Pagination Links -->
+            <div class="pagination d-flex justify-content-center mt-4">
+                <% if (currentPage > 1) { %>
+                    <a href="/magazine?page=<%= currentPage - 1 %>" class="btn btn-outline-primary me-2"><i class="fas fa-chevron-left"></i> Previous</a>
+                <% } %>
+    
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <a href="/magazine?page=<%= i %>" class="btn btn-outline-primary me-2 <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+                <% } %>
+    
+                <% if (currentPage < totalPages) { %>
+                    <a href="/magazine?page=<%= currentPage + 1 %>" class="btn btn-outline-primary ms-2">Next <i class="fas fa-chevron-right"></i></a>
+                <% } %>
+            </div>
+    
+        <% } else { %>
+            <p>No articles found</p>
         <% } %>
     </div>
-<% } else { %>
-    <p>No articles found</p>
-<% } %>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+

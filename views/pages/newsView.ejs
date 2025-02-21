@@ -1,12 +1,24 @@
 <!-- views/pages/newsView.ejs -->
-<h2><%= article.title %></h2>
-<p><%= article.content %></p>
+<div class="article-container">
+    <button class="back-button" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+    <!-- Article Image -->
+    <% if (article.imagePath) { %>
+        <div class="article-image">
+            <img src="<%= article.imagePath %>" alt="Article Image" class="img-fluid">
+        </div>
+    <% } %>
 
-<!-- Show article image -->
-<% if (article.imagePath) { %>
-    <img src="<%= article.imagePath %>" alt="Article Image" width="400">
-<% } %>
+    <!-- Article Meta (Author and Date) -->
+    <div class="article-meta">
+        <p class="author">Author: <%= article.author %></p>
+        <p class="publish-date">Published on: <%= article.createdAt.toLocaleDateString() %></p>
+    </div>
 
-<!-- Article author and publish date -->
-<p>Author: <%= article.author %></p>
-<p>Published on: <%= article.createdAt.toLocaleDateString() %></p>
+    <!-- Article Title -->
+    <h2 class="article-title"><%= article.title %></h2>
+
+    <!-- Article Content -->
+    <p class="article-content"><%= article.content %></p>
+</div>

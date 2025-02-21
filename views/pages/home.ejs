@@ -1,23 +1,79 @@
-<!-- views/pages/home.ejs -->
-<h1>Welcome to the Home Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <%- include("../partials/_topbar.ejs") %>
+    <!-- Navbar Section -->
+    <%- include("../partials/_nav.ejs") %>
 
-<h2>Trending News</h2>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="dim-color"></div>
+        <div class="paroller-container">
+            <div class="paroller-image">
+                <img src="https://images.pexels.com/photos/167538/pexels-photo-167538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Hero Background" />
+            </div>
+            <div class="paroller-image-second">
+                <img src="https://images.pexels.com/photos/167538/pexels-photo-167538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Second Background" />
+            </div>
+        </div>
+    
+        <div class="hero-content">
+            <h1>The Screenshot Association</h1>
+            <p>Taba Tsa Batho Di Monate.</p>
+            <a href="/contact" class="cta-button">Contact us</a>
+        </div>
+    </section>
 
-<% if (trendingNews.length > 0) { %>
-    <ul>
-        <% trendingNews.forEach(news => { %>
-            <li>
-                <h3><a href="/news/<%= news._id %>"><%= news.title %></a></h3>
-                <p><%= news.content.substring(0, 100) %>...</p>
-                <p><%= news.likes %> Likes</p>
+      <!-- News Grids (Using only trendingNews) -->
+<div class="container mt-5 pb-5">
+    <div class="section-title text-white">
+        <h2>Latest News</h2>
+    </div>
+    <div class="news-grid">
+        <% if (trendingNews.length > 0) { %>
+            <% trendingNews.forEach(news => { %> 
+                <div class="news-card" data-aos="fade-up">
+                    <img src="<%= news.imagePath %>" alt="News Image">
+                    <div class="card-body">
+                        <h5><a href="/news/<%= news._id %>" class="text-decoration-none"><%= news.title %></a></h5>
+                        <p><%= news.content.substring(0, 100) %>...</p>
+                        <a href="/news/<%= news._id %>" class="text-decoration-none btn btn-primary">read more</a>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No trending news available.</p>
+        <% } %>
+    </div>
+    
+</div>
+    <!-- External JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paroller.js/1.4.7/jquery.paroller.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
 
-                <!-- Show image if available -->
-                <% if (news.imagePath) { %>
-                    <img src="<%= news.imagePath %>" alt="Article Image" width="200">
-                <% } %>
-            </li>
-        <% }) %>
-    </ul>
-<% } else { %>
-    <p>No trending news available.</p>
-<% } %>
+    <script src="js/script.js"></script>
+    <script>
+   $(document).ready(function() {
+    $('.paroller-image img').paroller({
+        factor: 0.5, 
+        type: 'foreground',
+        direction: 'horizontal' 
+    });
+
+  
+    $('.paroller-image-second img').paroller({
+        factor: 0.5,  
+        type: 'foreground',
+        direction: 'horizontal' 
+    });
+});
+
+    </script>
+</body>
+</html>
