@@ -1,39 +1,129 @@
-<!-- views/pages/admin/manageArticle.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Articles</title>
+    <link rel="stylesheet" href="/styles/admin/manageArticle.css">
+    <style>
+        /* Base styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #000;
+}
+
+/* dashboard-container for the content */
+.dashboard-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+/* Button styling */
+.btn-create {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.btn-create:hover {
+    background-color: #45a049;
+}
+
+/* Table Styling */
+.articles-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.articles-table th, .articles-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.articles-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.articles-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Article image styling */
+.article-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Action buttons */
+.btn-action {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-action:hover {
+    text-decoration: underline;
+}
+
+    </style>
 </head>
 <body>
-    <h2>Manage Articles</h2>
-    <a href="/admin/createArticle">Create New Article</a>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-       <!-- views/pages/admin/manageArticle.ejs -->
-<tbody>
-    <% articles.forEach((article) => { %>
-        <tr>
-            <td><%= article.title %></td>
-            <td>
-                <% if (article.image) { %>
-                    <img src="<%= article.image %>" alt="Article Image" style="width: 100px; height: 100px;">
-                <% } %>
-            </td>
-            <td>
-                <a href="/admin/articles/edit-article/<%= article._id %>">Edit</a> | 
-                <a href="/admin/articles/delete-article/<%= article._id %>">Delete</a>
-            </td>
-        </tr>
-    <% }); %>
-</tbody>
-
-    </table>
+    <div class="dashboard-container">
+        <button class="back-button" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <h2>Manage Articles</h2>
+        <a class="btn-create" href="/admin/createArticle">Create New Article</a>
+        <table class="articles-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% articles.forEach((article) => { %>
+                    <tr>
+                        <td><%= article.title %></td>
+                        <td>
+                            <% if (article.image) { %>
+                                <img src="<%= article.image %>" alt="Article Image" class="article-image">
+                            <% } %>
+                        </td>
+                        <td>
+                            <a class="btn-action" href="/admin/articles/edit-article/<%= article._id %>">Edit</a> |
+                            <a class="btn-action" href="/admin/articles/delete-article/<%= article._id %>">Delete</a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

@@ -1,29 +1,125 @@
-<!-- views/pages/admin/manageConfession.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Confessions</title>
+    <link rel="stylesheet" href="/styles/admin/manageConfession.css"> <!-- Link to external CSS -->
+    <style>
+        /* Base styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* dashboard-container for the content */
+.dashboard-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* List of confessions */
+.confession-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.confession-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin: 15px 0;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Confession content */
+.confession-content {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* Action buttons dashboard-container */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+/* Button styles */
+button {
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-approve {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-approve:hover {
+    background-color: #45a049;
+}
+
+.btn-reject {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-reject:hover {
+    background-color: #e53935;
+}
+
+/* No confessions message */
+p {
+    text-align: center;
+    font-size: 1.2em;
+    color: #555;
+}
+    </style>
 </head>
 <body>
-    <h1>Manage Confessions</h1>
-    <% if (confessions.length > 0) { %>
-        <ul>
-            <% confessions.forEach(confession => { %>
-                <li>
-                    <p><%= confession.content %></p>
-                    <form action="/admin/confessions/<%= confession._id %>/approve" method="POST">
-                        <button type="submit">Approve</button>
-                    </form>
-                    <form action="/admin/confessions/<%= confession._id %>/reject" method="POST">
-                        <button type="submit">Reject</button>
-                    </form>
-                </li>
-            <% }) %>
-        </ul>
-    <% } else { %>
-        <p>No confessions to approve.</p>
-    <% } %>
+    <div class="dashboard-container">
+        <button class="back-button" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <h1>Manage Confessions</h1>
+        <% if (confessions.length > 0) { %>
+            <ul class="confession-list">
+                <% confessions.forEach(confession => { %>
+                    <li class="confession-item">
+                        <p class="confession-content"><%= confession.content %></p>
+                        <div class="action-buttons">
+                            <form action="/admin/confessions/<%= confession._id %>/approve" method="POST">
+                                <button type="submit" class="btn-approve">Approve</button>
+                            </form>
+                            <form action="/admin/confessions/<%= confession._id %>/reject" method="POST">
+                                <button type="submit" class="btn-reject">Reject</button>
+                            </form>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No confessions to approve.</p>
+        <% } %>
+    </div>
 </body>
 </html>

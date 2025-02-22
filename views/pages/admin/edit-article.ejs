@@ -1,35 +1,130 @@
-<!-- views/pages/admin/edit-article.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Article</title>
+    <link rel="stylesheet" href="/styles/admin/editArticle.css"> <!-- Link to the CSS file -->
+    <style>
+        /* Base styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for the content */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Form styling */
+.edit-article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form group (label + input/textarea) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Input and textarea styling */
+.form-input {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Enhanced textarea */
+textarea.form-input {
+    min-height: 200px; /* Increased height for better writing space */
+    resize: vertical; /* Allows resizing the textarea vertically */
+}
+
+/* Image display */
+.image-preview {
+    margin-top: 10px;
+}
+
+.image-preview img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 5px;
+}
+
+/* Submit button */
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Submit button hover effect */
+.btn-submit:hover {
+    background-color: #45a049;
+}
+
+    </style>
 </head>
 <body>
-    <h2>Edit Article</h2>
-    <!-- views/pages/admin/edit-article.ejs -->
-<form action="/admin/articles/edit-article/<%= article._id %>" method="POST" enctype="multipart/form-data">
-    <label for="title">Title:</label>
-    <input type="text" name="title" value="<%= article.title %>" required>
-    
-    <label for="content">Content:</label>
-    <textarea name="content" required><%= article.content %></textarea>
-    
-    <label for="author">Author:</label>
-    <input type="text" name="author" value="<%= article.author %>" required>
-    
-    <label for="image">Upload Image:</label>
-    <input type="file" name="image" id="image" accept="image/*">
-    
-    <% if (article.image) { %>
-        <div>
-            <img src="<%= article.image %>" alt="Article Image" style="width: 100px; height: 100px;">
-        </div>
-    <% } %>
-    
-    <button type="submit">Update Article</button>
-</form>
+    <div class="container">
+        <h2>Edit Article</h2>
 
+        <form class="edit-article-form" action="/admin/articles/edit-article/<%= article._id %>" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" name="title" value="<%= article.title %>" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea name="content" class="form-input" required><%= article.content %></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" name="author" value="<%= article.author %>" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="image">Upload Image:</label>
+                <input type="file" name="image" id="image" accept="image/*" class="form-input">
+            </div>
+            
+            <% if (article.image) { %>
+                <div class="image-preview">
+                    <img src="<%= article.image %>" alt="Article Image">
+                </div>
+            <% } %>
+            
+            <button type="submit" class="btn-submit">Update Article</button>
+        </form>
+    </div>
 </body>
 </html>

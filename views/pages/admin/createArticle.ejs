@@ -1,27 +1,179 @@
-<!-- views/pages/admin/createArticle.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Article</title>
+    <link rel="stylesheet" href="/styles/admin/createArticle.css"> <!-- Link to external CSS -->
+    <style>
+        /* Base styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #000;
+}
+
+/* dashboard-container for the content */
+.dashboard-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Form styling */
+.create-article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form group (label + input/textarea) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Input and textarea styling */
+.form-input {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Submit button */
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Submit button hover effect */
+.btn-submit:hover {
+    background-color: #45a049;
+}
+
+/* Base styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for the content */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Form styling */
+.create-article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form group (label + input/textarea) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Input and textarea styling */
+.form-input {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Enhanced textarea */
+textarea.form-input {
+    min-height: 200px; /* Increased height for better writing space */
+    resize: vertical; /* Allows resizing the textarea vertically */
+}
+
+/* Submit button */
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Submit button hover effect */
+.btn-submit:hover {
+    background-color: #45a049;
+}
+
+
+    </style>
 </head>
 <body>
-    <h2>Create New Article</h2>
-    <form action="/admin/news/create" method="POST" enctype="multipart/form-data">
-        <label for="title">Title:</label>
-        <input type="text" name="title" id="title" required>
-    
-        <label for="content">Content:</label>
-        <textarea name="content" id="content" required></textarea>
-    
-        <label for="author">Author:</label>
-        <input type="text" name="author" id="author" required>
-    
-        <label for="image">Upload Image:</label>
-        <input type="file" name="image" id="image" accept="image/*">
-    
-        <button type="submit">Create Article</button>
-    </form>
+    <div class="dashboard-container">
+        <h2>Create New Article</h2>
+        <form action="/admin/news/create" method="POST" enctype="multipart/form-data" class="create-article-form">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" required class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea name="content" id="content" required class="form-input"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" name="author" id="author" required class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label for="image">Upload Image:</label>
+                <input type="file" name="image" id="image" accept="image/*" class="form-input">
+            </div>
+
+            <button type="submit" class="btn-submit">Create Article</button>
+        </form>
+    </div>
 </body>
 </html>
