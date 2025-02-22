@@ -3,13 +3,14 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const News = require('../../models/News');
 const Confession = require('../../models/Confession');
-const articleRoutes = require('./articles');  // Import the article routes
+const articleRoutes = require('./articles');
 const Admin = require('../../models/Admin'); // Import your Admin model
 const upload = require('../../middleware/upload');
 const { isAuthenticated } = require('../../middleware/authMiddleware'); // Middleware for authentication
 const router = express.Router();
 
 router.use('/articles', articleRoutes);
+
 
 // Admin Login - GET Route
 router.get('/login', (req, res) => {
@@ -47,8 +48,18 @@ router.post('/login', async (req, res) => {
 });
 
 // Admin Dashboard - Protected Route (GET)
-router.get('/dashboard', isAuthenticated, (req, res) => {
-  res.render('pages/admin/dashboard'); // Render the admin dashboard (inside views/pages/admin)
+router.get('/dashboard', isAuthenticated, async (req, res) => {
+  try {
+    // Fetch the total number of articles and confessions
+    const totalArticles = await News.countDocuments();
+    const totalConfessions = await Confession.countDocuments();
+
+    // Render the admin dashboard and pass the counts as variables
+    res.render('pages/admin/dashboard', { totalArticles, totalConfessions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
 });
 
 
